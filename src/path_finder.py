@@ -9,8 +9,8 @@ class PathFinder:
     board: Board
     path: List[tuple] = [(0, 0)]
 
-    def __init__(self, height: int, width: int) -> None:
-        self.board = Board(height, width)
+    def __init__(self, height: int, width: int, game_mode: int = 1) -> None:
+        self.board = Board(height, width, game_mode)
 
     def print_board(self):
         self.board.print_board(self.path)
@@ -103,6 +103,7 @@ class PathFinder:
         while not priority_queue.empty():
             current_distance, current_position = priority_queue.get()
 
+            # Compare neighbors (i.e. the possible moves from the current node)
             for neighbor in self.board.possible_moves(current_position[0], current_position[1]):
                 distance = self.board.get_weigth(*current_position, *neighbor) + current_distance
 
