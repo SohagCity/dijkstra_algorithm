@@ -1,13 +1,12 @@
 import random
 from typing import List
 
-random.seed(5)
 
 
 class Board:
     height: int
     width: int
-    board: List[List[int]] = []
+    board: List[List[int]]
     moves: list
     game_mode: int = 0
 
@@ -24,12 +23,13 @@ class Board:
             self.move_left, 
             self.move_right
         ]
+        self.board = []
         for _ in range(height):
             self.board.append(
                 [random.randint(0, 9) for _ in range(width)]
             )
 
-    def print_board(self, path):
+    def print_board(self, path: List[tuple] = []):
         """
         Print the board highlighting the path given.
         """
@@ -46,7 +46,7 @@ class Board:
 
             print()
 
-    def get_weigth(self, starting_x, starting_y, x, y):
+    def get_weight(self, starting_x, starting_y, x, y):
         """
         Get the weight of a node based on the selected game mode.
         """
@@ -57,6 +57,9 @@ class Board:
             return abs(self.board[x][y] - self.board[starting_x][starting_y])
 
     def is_within_limits(self, x, y):
+        """
+        Check if the given coordinates are within the board's size.
+        """
         if x < self.width and x >= 0 and y < self.height and y >= 0 :
             return x, y
         
@@ -75,5 +78,5 @@ class Board:
     def move_left(self, x: int, y: int):
         return self.is_within_limits(x, y - 1)
     
-    def possible_moves(self, x, y):
+    def possible_moves(self, x, y) -> List[tuple]:
         return [move(x, y) for move in self.moves if move(x, y) != None]
