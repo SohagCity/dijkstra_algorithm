@@ -1,3 +1,4 @@
+import random
 from typing import List
 
 from board import Board
@@ -9,11 +10,15 @@ class PathFinder:
     board: Board
     path: List[tuple] = [(0, 0)]
 
-    def __init__(self, height: int, width: int, game_mode: int = 1) -> None:
-        self.board = Board(height, width, game_mode)
-
-    def __init__(self, board: Board) -> None:
-        self.board = board
+    def __init__(
+        self,
+        height: int,
+        width: int,
+        game_mode: int = 1,
+        distribution = random.randint,
+        **kwargs
+    ) -> None:
+        self.board = Board(height, width, game_mode, distribution, **kwargs)
 
     def print_board(self):
         self.board.print_board(self.path)

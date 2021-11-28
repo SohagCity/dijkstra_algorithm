@@ -13,7 +13,14 @@ class Board:
     GREEN = '\033[92m'
     ENDC  = '\033[0m'
 
-    def __init__(self, height: int, width: int, game_mode: int = 1) -> None:
+    def __init__(
+        self,
+        height: int,
+        width: int,
+        game_mode: int = 1,
+        distribution = random.randint,
+        **kwargs
+    ) -> None:
         self.height = height
         self.width = width
         self.game_mode = game_mode
@@ -26,14 +33,13 @@ class Board:
         self.board = []
         for _ in range(height):
             self.board.append(
-                [random.randint(0, 9) for _ in range(width)]
+                [distribution(**kwargs) for _ in range(width)]
             )
 
     def print_board(self, path: List[tuple] = []):
         """
         Print the board highlighting the path given.
         """
-        # TODO: make space depend on the number of digits
         for x, row in enumerate(self.board):
             for y, value in enumerate(row):
                 if (x, y) in path:
@@ -42,7 +48,7 @@ class Board:
                 else:
                     color = ''
 
-                print("{}%{}d".format(color, 2) % value + self.ENDC, end=" ")
+                print("{}%{}f".format(color, 2) % value + self.ENDC, end=" ")
 
             print()
 
